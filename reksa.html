@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Biografi profesional dengan animasi interaktif">
+    <title>Yazid Biografi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .parallax {
+            background-image: url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/71cb8e51-c900-4412-84de-5201d9e86e72.png');
+            min-height: 100vh;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .parallax::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+        }
+        
+        .profile-card {
+            transition: all 0.3s ease;
+            perspective: 1000px;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+        }
+        
+        .timeline-item {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition-delay: calc(var(--delay) * 0.1s);
+        }
+        
+        .fade-in {
+            animation: fadeIn 1.5s forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .moving-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #3a86ff, #8338ec, #ff006e, #ffbe0b);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            z-index: -1;
+            opacity: 0.9;
+            transition: all 0.5s ease;
+        }
+        .moving-bg:hover {
+            opacity: 1;
+            animation: gradientBG 8s ease infinite;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Responsive image styles */
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgb(34, 132, 189);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            margin: 0 auto 20px;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="moving-bg"></div>
+    
+    <div class="min-h-screen flex items-center justify-center relative z-10">
+        <div class="text-center text-white px-4 fade-in">
+            <!-- Mengganti path lokal dengan URL online atau upload ke hosting gambar -->
+            <img src="https://i.postimg.cc/5yxNZVkz/Whats-App-Image-2025-08-01-at-14-26-16-9a514747-removebg-preview.png" alt="Foto Profil Yazid" class="profile-image">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 animate-bounce">Muhammad Yazid Syahbani</h1>
+            <p class="text-xl md:text-2xl mb-8">Gamers</p>
+            <div class="flex justify-center space-x-4">
+                <button class="px-6 py-2 bg-blue-500 rounded-full hover:bg-blue-600 transition-all">Kontak</button>
+                <button class="px-6 py-2 bg-transparent border-2 border-white rounded-full hover:bg-white hover:text-gray-900 transition-all">Portofolio</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Section -->
+    <section class="py-16 bg-white relative">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800"></h2>
+            
+            <div class="relative">
+                <div class="hidden md:block absolute h-full w-1 bg-blue-500 left-1/2 transform -translate-x-1/2"></div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline-item">
+                        <div class="bg-gray-100 p-6 rounded-lg shadow-md relative profile-card">
+                            <div class="absolute -left-4 top-6 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                                2008
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Lahir di Jakarta 08-Agustus</h3>
+                            <p class="text-gray-700">Lahir dari rahim emak gue</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 2 -->
+                    <div class="timeline-item">
+                        <div class="bg-gray-100 p-6 rounded-lg shadow-md relative profile-card md:translate-x-20">
+                            <div class="absolute -right-4 top-6 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                                2008
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Pendidikan</h3>
+                            <p class="text-gray-700">Madrasah Ibtidaiyah al-hikmah</p>
+                            <p class="text-gray-700">Pondok Pesantren Daarul Rahman</p>
+                            <p class="text-Pink-700">SMK Cyber Media Jakarta</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 3 -->
+                    <div class="timeline-item">
+                        <div class="bg-gray-100 p-6 rounded-lg shadow-md relative profile-card">
+                            <div class="absolute -left-4 top-6 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                                2012
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Hobi</h3>
+                            <p class="text-gray-700">bermain game,lari,kyk lari dari kenyataan contohnya,sama lari dari masalalu paling</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 4 -->
+                    <div class="timeline-item">
+                        <div class="bg-gray-100 p-6 rounded-lg shadow-md relative profile-card md:translate-x-20">
+                            <div class="absolute -right-4 top-6 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                                2015
+                            </div>
+                            <h3 class="text-xl font-semibold mb-2">Mendirikan Startup</h3>
+                            <p class="text-gray-700">Mendirikan perusahaan teknologi pertama dengan produk aplikasi manajemen proyek.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section with Flip Cards -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Keahlian</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Skill Card 1 -->
+                <div class="flip-card h-64">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-white rounded-lg shadow-lg flex items-center justify-center">
+                            <div class="text-center p-4">
+                                <div class="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold">Gaming</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back bg-blue-500 rounded-lg shadow-lg flex items-center justify-center">
+                            <div class="text-center p-4 text-white">
+                                <h3 class="text-xl font-semibold mb-4">Pengalaman</h3>
+                                <p class="text-sm">Pernah juara di berbagai lomba game online</p>
+                                <p class="mt-2 text-sm">Mobile Legends, Free Fire, Honor of King, DLL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skill Card 2 -->
+                <div class="flip-card h-64">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-white rounded-lg shadow-lg flex items-center justify-center">
+                            <div class="text-center p-4">
+                                <div class="w-16 h-16 mx-auto mb-4 bg-pink-100 rounded-full flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold">Desain</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back bg-pink-500 rounded-lg shadow-lg flex items-center justify-center">
+                            <div class="text-center p-4 text-white">
+                                <h3 class="text-xl font-semibold mb-4">Pengalaman</h3>
+                                <p class="text-sm">Spesialis dalam menciptakan desain yang menarik dan unik.</p>
+                                <p class="mt-2 text-sm">Capcut,Alight Motion,</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skill Card 3 -->
+                <div class="flip-card h-64">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front bg-white rounded-lg shadow-lg flex items-center justify-center">
+                            <div class="text-center p-4">
+                                <div class="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold">Teknologi Komputer & Jaringan</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back bg-purple-500 rounded-lg shadow-lg flex items-center justify-center">
+                            <div class="text-center p-4 text-white">
+                                <h3 class="text-xl font-semibold mb-4">Pengalaman</h3>
+                                <p class="text-sm">Ahli dalam memperbaiki hardware</p>
+                                <p class="mt-2 text-sm">Bisa mengimplementasilan beberapa software</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-semibold">Muhammad Yazid Syahbani</h3>
+                    <p class="text-gray-400">Gamers</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-700 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-gray-600 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.020.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center hover:bg-blue-500 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.790-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-gray-400 text-sm">
+                <p>© 2025 Muhammad Yazid Syahbani. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animate timeline items on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            timelineItems.forEach((item, index) => {
+                item.style.setProperty('--delay', index);
+            });
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            }, { threshold: 0.15 });
+            
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+            
+            // Floating animation for profile picture
+            const profileImg = document.querySelector('.profile-image');
+            let floating = true;
+            let position = 0;
+            let direction = 1;
+            
+            function animateFloating() {
+                if (!floating) return;
+                
+                position += direction * 0.6; // Slow down the animation
+                
+                if (position > 12) {
+                    direction = -1;
+                } else if (position < -12) {
+                    direction = 1;
+                }
+                
+                profileImg.style.transform = `
+                    translateY(${position}px) 
+                    rotate(${position*0.3}deg)
+                    scale(${1 + Math.abs(position*0.002)})
+                `;
+                requestAnimationFrame(animateFloating);
+            }
+            
+            profileImg.addEventListener('mouseenter', () => {
+                floating = false;
+                profileImg.style.transform = 'scale(1.05)';
+            });
+            
+            profileImg.addEventListener('mouseleave', () => {
+                floating = true;
+                profileImg.style.transform = 'translateY(0)';
+                animateFloating();
+            });
+            
+            animateFloating();
+            
+            // Random color pulse animation for skills cards
+            const skillCards = document.querySelectorAll('.flip-card');
+            
+            setInterval(() => {
+                skillCards.forEach(card => {
+                    const colors = ['#3B82F6', '#EC4899', '#8B5CF6'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    card.querySelector('.flip-card-back').style.backgroundColor = randomColor;
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
